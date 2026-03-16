@@ -12,56 +12,41 @@ export default function Home() {
 
   const heroRef = useRef(null)
   const carRef = useRef(null)
-  const bgRef = useRef(null)
 
   useEffect(() => {
 
     const lenis = new Lenis()
 
-    function raf(time: any) {
+    function raf(time) {
       lenis.raf(time)
       requestAnimationFrame(raf)
     }
 
     requestAnimationFrame(raf)
 
-    // HEADLINE ANIMATION
+    // Headline animation
     gsap.from(".letter", {
       opacity: 0,
-      y: 80,
-      rotateX: 90,
-      stagger: 0.06,
-      duration: 1.2,
+      y: 60,
+      stagger: 0.05,
+      duration: 1,
       ease: "power3.out"
     })
 
-    // STATISTICS ANIMATION
+    // Statistics animation
     gsap.from(".stat", {
       opacity: 0,
-      y: 40,
+      y: 30,
       stagger: 0.3,
       delay: 1
     })
 
-    // CAR SCROLL ANIMATION
+    // Car scroll animation
     gsap.to(carRef.current, {
-      x: 900,
+      x: 850,
       y: -120,
-      rotation: 8,
-      scale: 1.25,
-      ease: "power1.out",
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: 1
-      }
-    })
-
-    // PARALLAX BACKGROUND
-    gsap.to(bgRef.current, {
-      y: -100,
-      ease: "none",
+      rotation: 10,
+      scale: 1.2,
       scrollTrigger: {
         trigger: heroRef.current,
         start: "top top",
@@ -74,89 +59,88 @@ export default function Home() {
 
   }, [])
 
-  const text = "WELCOME ITZ FIZZ"
-    .split("")
-    .map((letter) => letter === " " ? "\u00A0" : letter)
+  const text = "WELCOME ITS FIZZ"
 
   return (
 
-    <main className="h-[200vh] bg-black text-white overflow-x-hidden">
+    <main className="h-[200vh] bg-gradient-to-b from-black via-gray-900 to-black text-white overflow-x-hidden">
 
       <section
         ref={heroRef}
-        className="relative h-screen flex flex-col justify-start items-center pt-32 gap-10 px-6">
-
-        {/* BACKGROUND */}
-        <div
-          ref={bgRef}
-          className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black"
-        ></div>
+        className="h-screen flex flex-col items-center text-center pt-32 px-6">
 
         {/* HEADLINE */}
-        <h1 className="relative text-5xl md:text-7xl tracking-[0.35em] flex flex-wrap justify-center text-center">
+        <h1 className="text-6xl md:text-7xl font-bold tracking-[0.25em] mb-8 flex flex-wrap justify-center gap-4">
 
-          {text.map((letter, i) => (
-            <span key={i} className="letter">
-              {letter}
+          {text.split(" ").map((word, i) => (
+            <span key={i} className="flex gap-1">
+              {word.split("").map((letter, j) => (
+                <span key={j} className="letter">
+                  {letter}
+                </span>
+              ))}
             </span>
           ))}
 
         </h1>
 
         {/* DESCRIPTION */}
-        <p className="relative text-gray-400 text-center max-w-2xl leading-relaxed">
-          Welcome to my creative space. I focus on building modern digital
-          experiences that combine design, interaction and performance.
-          My goal is to create engaging user interfaces that feel smooth,
-          intuitive and visually impactful.
+        <p className="max-w-2xl text-gray-400 leading-relaxed mb-12">
+
+          I design and develop modern digital experiences that combine
+          creativity, interaction and performance. My goal is to build
+          visually engaging interfaces that feel smooth, intuitive and
+          immersive for users.
+
         </p>
 
         {/* STATISTICS */}
-        <div className="relative flex gap-16 flex-wrap justify-center mt-4">
+        <div className="flex gap-16 flex-wrap justify-center mb-16">
 
-          <div className="stat text-center max-w-[180px]">
+          <div className="stat text-center">
             <h2 className="text-4xl font-bold">
-              <CountUp end={95} duration={3}/>%
+              <CountUp end={95} duration={3} suffix="%" />
             </h2>
             <p className="text-gray-400 mt-2 text-sm">
-              Client satisfaction across multiple projects
+              Client satisfaction
             </p>
           </div>
 
-          <div className="stat text-center max-w-[180px]">
+          <div className="stat text-center">
             <h2 className="text-4xl font-bold">
-              <CountUp end={120} duration={3}/>+
+              <CountUp end={120} duration={3} suffix="+" />
             </h2>
             <p className="text-gray-400 mt-2 text-sm">
-              Projects successfully delivered
+              Projects delivered
             </p>
           </div>
 
-          <div className="stat text-center max-w-[180px]">
+          <div className="stat text-center">
             <h2 className="text-4xl font-bold">
-              <CountUp end={10000} duration={3}/>
+              <CountUp end={10000} duration={3} />
             </h2>
             <p className="text-gray-400 mt-2 text-sm">
-              Users interacting with digital products
+              Active users
             </p>
           </div>
 
         </div>
 
-        {/* CAR IMAGE */}
+        {/* CAR */}
         <img
           ref={carRef}
           src="/car.png"
-          className="relative w-[380px] mt-10"
+          className="w-[380px]"
         />
 
-        {/* SCROLL INDICATOR */}
-        <div className="absolute bottom-10 text-gray-400 animate-bounce">
-          SCROLL ↓
-        </div>
+        {/* SCROLL TEXT */}
+        <p className="mt-10 text-gray-500 animate-bounce">
+          Scroll Down ↓
+        </p>
 
       </section>
 
     </main>
+
   )
 }
