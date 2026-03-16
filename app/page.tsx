@@ -1,146 +1,68 @@
-"use client"
+"use client";
 
-import { useEffect, useRef } from "react"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import Lenis from "@studio-freight/lenis"
-import CountUp from "react-countup"
-
-gsap.registerPlugin(ScrollTrigger)
+import { useEffect, useState } from "react";
 
 export default function Home() {
-
-  const heroRef = useRef(null)
-  const carRef = useRef(null)
+  const [count1, setCount1] = useState(0);
+  const [count2, setCount2] = useState(0);
+  const [count3, setCount3] = useState(0);
 
   useEffect(() => {
+    const interval = setInterval(() => {
+      setCount1((c) => (c < 95 ? c + 1 : c));
+      setCount2((c) => (c < 120 ? c + 1 : c));
+      setCount3((c) => (c < 10000 ? c + 200 : c));
+    }, 40);
 
-    const lenis = new Lenis()
-
-    function raf(time) {
-      lenis.raf(time)
-      requestAnimationFrame(raf)
-    }
-
-    requestAnimationFrame(raf)
-
-    // Headline animation
-    gsap.from(".letter", {
-      opacity: 0,
-      y: 60,
-      stagger: 0.05,
-      duration: 1,
-      ease: "power3.out"
-    })
-
-    // Statistics animation
-    gsap.from(".stat", {
-      opacity: 0,
-      y: 30,
-      stagger: 0.3,
-      delay: 1
-    })
-
-    // Car scroll animation
-    gsap.to(carRef.current, {
-      x: 850,
-      y: -120,
-      rotation: 10,
-      scale: 1.2,
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: 1
-      }
-    })
-
-    ScrollTrigger.refresh()
-
-  }, [])
-
-  const text = "WELCOME ITS FIZZ"
+    return () => clearInterval(interval);
+  }, []);
 
   return (
+    <main className="min-h-screen flex flex-col items-center justify-center text-center px-6">
 
-    <main className="h-[200vh] bg-gradient-to-b from-black via-gray-900 to-black text-white overflow-x-hidden">
+      {/* TITLE */}
+      <h1 className="hero-title text-5xl font-bold tracking-widest mb-6">
+        <span>WELCOME</span>
+        <span>ITS</span>
+        <span>FIZZ</span>
+      </h1>
 
-      <section
-        ref={heroRef}
-        className="h-screen flex flex-col items-center text-center pt-32 px-6">
+      {/* DESCRIPTION */}
+      <p className="max-w-2xl text-gray-300 mb-10">
+        I design and develop modern digital experiences that combine creativity,
+        interaction and performance. My goal is to build visually engaging
+        interfaces that feel smooth, intuitive and immersive for users.
+      </p>
 
-        {/* HEADLINE */}
-        <h1 className="text-6xl md:text-7xl font-bold tracking-[0.25em] mb-8 flex flex-wrap justify-center gap-4">
+      {/* STATS */}
+      <div className="flex gap-12 text-center mb-16">
 
-          {text.split(" ").map((word, i) => (
-            <span key={i} className="flex gap-1">
-              {word.split("").map((letter, j) => (
-                <span key={j} className="letter">
-                  {letter}
-                </span>
-              ))}
-            </span>
-          ))}
-
-        </h1>
-
-        {/* DESCRIPTION */}
-        <p className="max-w-2xl text-gray-400 leading-relaxed mb-12">
-
-          I design and develop modern digital experiences that combine
-          creativity, interaction and performance. My goal is to build
-          visually engaging interfaces that feel smooth, intuitive and
-          immersive for users.
-
-        </p>
-
-        {/* STATISTICS */}
-        <div className="flex gap-16 flex-wrap justify-center mb-16">
-
-          <div className="stat text-center">
-            <h2 className="text-4xl font-bold">
-              <CountUp end={95} duration={3} suffix="%" />
-            </h2>
-            <p className="text-gray-400 mt-2 text-sm">
-              Client satisfaction
-            </p>
-          </div>
-
-          <div className="stat text-center">
-            <h2 className="text-4xl font-bold">
-              <CountUp end={120} duration={3} suffix="+" />
-            </h2>
-            <p className="text-gray-400 mt-2 text-sm">
-              Projects delivered
-            </p>
-          </div>
-
-          <div className="stat text-center">
-            <h2 className="text-4xl font-bold">
-              <CountUp end={10000} duration={3} />
-            </h2>
-            <p className="text-gray-400 mt-2 text-sm">
-              Active users
-            </p>
-          </div>
-
+        <div>
+          <h2 className="text-3xl font-bold">{count1}%</h2>
+          <p className="text-gray-400">Client satisfaction</p>
         </div>
 
-        {/* CAR */}
-        <img
-          ref={carRef}
-          src="/car.png"
-          className="w-[380px]"
-        />
+        <div>
+          <h2 className="text-3xl font-bold">{count2}+</h2>
+          <p className="text-gray-400">Projects delivered</p>
+        </div>
 
-        {/* SCROLL TEXT */}
-        <p className="mt-10 text-gray-500 animate-bounce">
-          Scroll Down ↓
-        </p>
+        <div>
+          <h2 className="text-3xl font-bold">{count3}</h2>
+          <p className="text-gray-400">Active users</p>
+        </div>
 
-      </section>
+      </div>
+
+      {/* CAR */}
+      <img
+        src="https://pngimg.com/uploads/range_rover/range_rover_PNG65.png"
+        alt="car"
+        className="w-[500px] animate-bounce"
+      />
+
+      <p className="mt-8 text-gray-400">Scroll Down ↓</p>
 
     </main>
-
-  )
+  );
 }
