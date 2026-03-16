@@ -12,21 +12,20 @@ export default function Home() {
 
   const heroRef = useRef(null)
   const carRef = useRef(null)
-const bgRef = useRef(null)
+  const bgRef = useRef(null)
 
   useEffect(() => {
 
-    // Smooth scrolling
     const lenis = new Lenis()
 
-    function raf(time) {
+    function raf(time: any) {
       lenis.raf(time)
       requestAnimationFrame(raf)
     }
 
     requestAnimationFrame(raf)
 
-    // Headline animation
+    // HEADLINE ANIMATION
     gsap.from(".letter", {
       opacity: 0,
       y: 80,
@@ -36,7 +35,7 @@ const bgRef = useRef(null)
       ease: "power3.out"
     })
 
-    // Statistics animation
+    // STATISTICS ANIMATION
     gsap.from(".stat", {
       opacity: 0,
       y: 40,
@@ -44,30 +43,34 @@ const bgRef = useRef(null)
       delay: 1
     })
 
-    // Scroll animation for car
+    // CAR SCROLL ANIMATION
     gsap.to(carRef.current, {
-  x: 900,
-  y: -120,
-  rotation: 8,
-  scale: 1.25,
-  ease: "power1.out",
-  scrollTrigger: {
-    trigger: heroRef.current,
-    start: "top top",
-    end: "bottom top",
-    scrub: 1
-  }
-})
-gsap.to(bgRef.current, {
-  y: -100,
-  ease: "none",
-  scrollTrigger: {
-    trigger: heroRef.current,
-    start: "top top",
-    end: "bottom top",
-    scrub: 1
-  }
-})
+      x: 900,
+      y: -120,
+      rotation: 8,
+      scale: 1.25,
+      ease: "power1.out",
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: 1
+      }
+    })
+
+    // PARALLAX BACKGROUND
+    gsap.to(bgRef.current, {
+      y: -100,
+      ease: "none",
+      scrollTrigger: {
+        trigger: heroRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: 1
+      }
+    })
+
+    ScrollTrigger.refresh()
 
   }, [])
 
@@ -83,13 +86,13 @@ gsap.to(bgRef.current, {
         ref={heroRef}
         className="relative h-screen flex flex-col justify-start items-center pt-32 gap-10 px-6">
 
-        {/* Background gradient */}
+        {/* BACKGROUND */}
         <div
-  ref={bgRef}
-  className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black"
-></div>
+          ref={bgRef}
+          className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black"
+        ></div>
 
-        {/* Headline */}
+        {/* HEADLINE */}
         <h1 className="relative text-5xl md:text-7xl tracking-[0.35em] flex flex-wrap justify-center text-center">
 
           {text.map((letter, i) => (
@@ -100,16 +103,15 @@ gsap.to(bgRef.current, {
 
         </h1>
 
-        {/* Personal Description */}
+        {/* DESCRIPTION */}
         <p className="relative text-gray-400 text-center max-w-2xl leading-relaxed">
-          Welcome to my creative space. I focus on building modern digital experiences
-          that combine design, interaction and performance. My goal is to create
-          engaging user interfaces that feel smooth, intuitive and visually impactful.
-          Through experimentation with motion and design, I aim to craft experiences
-          that leave a lasting impression.
+          Welcome to my creative space. I focus on building modern digital
+          experiences that combine design, interaction and performance.
+          My goal is to create engaging user interfaces that feel smooth,
+          intuitive and visually impactful.
         </p>
 
-        {/* Statistics */}
+        {/* STATISTICS */}
         <div className="relative flex gap-16 flex-wrap justify-center mt-4">
 
           <div className="stat text-center max-w-[180px]">
@@ -141,14 +143,14 @@ gsap.to(bgRef.current, {
 
         </div>
 
-        {/* Car Image */}
+        {/* CAR IMAGE */}
         <img
           ref={carRef}
           src="/car.png"
           className="relative w-[380px] mt-10"
         />
 
-        {/* Scroll Indicator */}
+        {/* SCROLL INDICATOR */}
         <div className="absolute bottom-10 text-gray-400 animate-bounce">
           SCROLL ↓
         </div>
@@ -156,6 +158,5 @@ gsap.to(bgRef.current, {
       </section>
 
     </main>
-
   )
 }
